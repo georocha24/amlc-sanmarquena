@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Cooperativa SanMarqueña|{% block titulo %}{% endblock %}</title>
+	<meta charset = 'utf-8'>
+</head>
+<body>
+	<header>
+		{% block encabezado %}{% endblock encabezado %}
+		<nav>
+			<ul>
+				<li><a href="/">Inicio</a></li>
+				<li><a href="/Buscar">Busqueda de Personas</a></li>
+				<li><a href="#">Busqueda de Afiliados</a></li>
+				<li><a href="#">Clasificacion de Afiliado</a></li>
+				<li><a href="#">Acerca De</a></li>
+			</ul>
+		</nav>
+	</header>
+	<form class="buscar" action="/Buscar/" method="get">
+			<input type="text" id="buscar" name="buscar">
+			<button name="btnBuscar" type="button">Buscar:</button>
+	</form>
+	<section class='contenido'>
+
+		{% block contenido %}{% endblock contenido %}
+	</section>
+</body>
+</html>

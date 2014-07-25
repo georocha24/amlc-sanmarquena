@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %}
+	Buscar Personas
+{% endblock  %}
+
+{% block contenido %}
+	<section>
+		<div>
+		{% for buscar in  %}
+			<table>
+				<tr></tr>
+				<tr>
+					<td>{{%  %}}</td>
+					<td>{{%  %}}</td>
+				</tr>
+			</table>
+		{% endfor %}
+		</div>
+	</section>
+	
+{% endblock %}

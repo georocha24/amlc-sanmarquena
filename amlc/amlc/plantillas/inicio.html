@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+	Inicio
+{% endblock titulo %}
+
+{% block contenido %}
+	<h1>Afiliados actualmente en el sistema</h1>
+		<table>
+			{% for dato in afiliaditos %}
+			<tr>
+				<td><h3> Identidad </h3></td><td><h3> Primer Nombre </h3></td><td><h3> Segundo Nombre </h3></td><td><h3> Primer Apellido </h3></td><td><h3> Segundo Apellido </h3></td><td><h3> Nacionalidad </h3></td>
+			</tr>
+			<tr>
+				<td>{{ dato.NumIdentidad }}</td><td>{{ dato.PrimerNombre }}</td><td>{{ dato.SegundoNombre }}</td><td>{{ dato.PrimerApellido }}</td><td>{{ dato.SegundoApellido }}</td><td>{{ dato.Nacionalidad }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	
+{% endblock %}
+		
