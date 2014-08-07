@@ -39,7 +39,7 @@ class UIFRequerimientos(models.Model):
 	UIF_Nac = models.CharField(max_length=50, help_text='Nacionalidades', verbose_name=u'Nacionalidad', null=True)
 
 	def __unicode__(self):
-		return self.UIF_NumRequerimiento + '-----------' + self.UIF_PrimerNombre
+		return (self.UIF_PrimerNombre).decode("utf-8")
 
 class PorcentajeRiesgos(models.Model):
 	Porcentajes = models.DecimalField(max_digits = 10, decimal_places=0)

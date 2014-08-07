@@ -4,18 +4,69 @@
 {% endblock  %}
 
 {% block contenido %}
-	<section>
-		<div>
-		{% for buscar in  %}
-			<table>
-				<tr></tr>
-				<tr>
-					<td>{{%  %}}</td>
-					<td>{{%  %}}</td>
-				</tr>
-			</table>
-		{% endfor %}
-		</div>
-	</section>
-	
-{% endblock %}
+    <div class="row">
+        <div class="content-titulo row">
+            <h2 class="titulo">Resultados de la busqueda "{{dato1}} {{dato2}} {{dato3}} {{dato4}}"</h2>
+        </div>
+        <table class="table table-hover">
+            <tr>
+              <td>NumeroIdentidad</td><td>PrimerNombre</td><td>SegundoNombre</td><td>PrimerApellido</td><td>SegundoApellido</td><td>Fecha de Nacimiento</td>
+            </tr>
+            {% for element in resultado %}
+              <tr>
+                <td>{{element.CensoNumIdentidad}}</td><td>{{element.CensoPrimerNombre}}</td><td>{{element.CensoSegundoNombre}}</td><td>{{element.CensoPrimerApellido}}</td><td>{{element.CensoSEgundoApellido}}</td><td>{{element.CensoFechaNac}}</td>
+              </tr> 
+            {% endfor %}
+        </table>
+            
+    </div>
+    {% if num > 10 %}
+                <article class="cuerpo-contenido row paginacion">
+                        <ul class="pagination">
+                            <li class="{% if not resultado.has_previous %}disabled{% endif %}">
+                                {% if not resultado.has_previous %}
+                                    <a class="">Inicio</a>
+                                {% else %}
+                                    <a href="?buscaditas={{dato1}}&buscaditas1={{dato2}}&buscaditas2={{dato3}}&buscaditas3={{dato4}}&page=1" >Inicio</a>
+                                {% endif %}
+                            </li>
+                            <li class="{% if not resultado.has_previous %}disabled{% endif %}">
+                                {% if not resultado.has_previous %}
+                                    <a>Anterior</a>
+                                {% else %}
+                                    <a href="?buscaditas={{dato1}}&buscaditas1={{dato2}}&buscaditas2={{dato3}}&buscaditas3={{dato4}}&pagina={{resultado.previous_page_number}}">Anterior</a>
+                                {% endif %}
+                            </li>
+
+                            {% for page in page_number %}
+                                {% if page == resultado.number %}
+                                    <li class="active"><a class="visible-lg">{{page}}</a></li>
+                                {% else %}
+                                    <li><a class="visible-lg" href="?buscaditas={{dato1}}&buscaditas1={{dato2}}&buscaditas2={{dato3}}&buscaditas3={{dato4}}&pagina={{ page }}">{{ page }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            <li class="{% if not resultado.has_next %}disabled{% endif %}">
+                                {% if not resultado.has_next %}
+                                    <a>Siguiente</a>
+                                {% else %}
+                                    <a href="?buscaditas={{dato1}}&buscaditas1={{dato2}}&buscaditas2={{dato3}}&buscaditas3={{dato4}}&pagina={{resultado.next_page_number}}">Siguiente</a>
+                                {% endif %}
+                            </li>
+                            <li class="{% if not resultado.has_next %}disabled{% endif %}">
+                                {% if not resultado.has_next %}
+                                    <a>Ultimo</a>
+                                {% else %}
+                                    <a href="?buscaditas={{dato1}}&buscaditas1={{dato2}}&buscaditas2={{dato3}}&buscaditas3={{dato4}}&pagina={{resultado.paginator.num_pages}}" >Ultimo</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                <a>...{{num}}</a>
+                            </li>
+                        </ul>   
+                        </span>
+                        </ul>
+                </article>
+    {% endif %}
+
+{% endblock contenido %}

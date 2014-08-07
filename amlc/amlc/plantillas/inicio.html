@@ -5,17 +5,18 @@
 {% endblock titulo %}
 
 {% block contenido %}
-	<h1>Afiliados actualmente en el sistema</h1>
-		<table>
-			{% for dato in afiliaditos %}
-			<tr>
-				<td><h3> Identidad </h3></td><td><h3> Primer Nombre </h3></td><td><h3> Segundo Nombre </h3></td><td><h3> Primer Apellido </h3></td><td><h3> Segundo Apellido </h3></td><td><h3> Nacionalidad </h3></td>
-			</tr>
-			<tr>
-				<td>{{ dato.NumIdentidad }}</td><td>{{ dato.PrimerNombre }}</td><td>{{ dato.SegundoNombre }}</td><td>{{ dato.PrimerApellido }}</td><td>{{ dato.SegundoApellido }}</td><td>{{ dato.Nacionalidad }}</td>
-			</tr>
-			{% endfor %}
-		</table>
+	<form class="form-inline" method="GET" action="/buscar/" >
+    	<div class="input-group input-group-sm">
+        	<input type="text" class="form-control" name="buscaditas" placeholder="Primer Nombre">
+          <input type="text" class="form-control" name="buscaditas1" placeholder="Segundo Nombre">
+          <input type="text" class="form-control" name="buscaditas2" placeholder="Primer Apellido">
+          <input type="text" class="form-control" name="buscaditas3" placeholder="Segundo Apellido">
+          <input type="hidden" name="pagina" value="1">
+        	<span class="input-group-btn"> 
+          		<button id="btnBuscar" class="btn btn-info" type="submit">Buscar</button>
+        	</span>
+    	</div>
+  	</form>
 	
-{% endblock %}
+{% endblock contenido %}
 		
