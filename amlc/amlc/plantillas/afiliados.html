@@ -7,7 +7,7 @@
 			</tr>
 			{% for dato in afiliado %}
 			<tr>
-				<td>{{ dato.NumIdentidad }}</td><td>{{ dato.PrimerNombre }}</td><td>{{ dato.SegundoNombre }}</td><td>{{ dato.PrimerApellido }}</td><td>{{ dato.SegundoApellido }}</td><td>{{ dato.Nacionalidad }}</td><td><a href="/resultados-score/{{dato.NumIdentidad}}"><button class="btn btn-primary">Examinar</button></a></td>
+				<td>{{ dato.NumIdentidad }}</td><td>{{ dato.PrimerNombre }}</td><td>{{ dato.SegundoNombre }}</td><td>{{ dato.PrimerApellido }}</td><td>{{ dato.SegundoApellido }}</td><td>{{ dato.Nacionalidad }}</td><td><a href="/resultados-score/{{dato.NumIdentidad}}/"><button class="btn btn-primary">Examinar</button></a></td>
 			</tr>
 			{% endfor %}
 		</table>

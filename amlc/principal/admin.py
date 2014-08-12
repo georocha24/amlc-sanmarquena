@@ -28,15 +28,23 @@ class CensosAdmin(admin.ModelAdmin):
 class ListaCautelaAdmin(admin.ModelAdmin):
 	list_display=('NumIdentidad', 'NombreCompleto', 'FechaIngreso', 'Nacionalidad')
 	list_filter=('Nacionalidad',)
-	search_fields=('NumIdentidad', 'NombreCompleto',)	
+	search_fields=('NumIdentidad', 'NombreCompleto',)
+
+class PEPSNACAdmin(admin.ModelAdmin):
+	list_display=('NumIdentidad', 'NombreCompleto', 'DescripcionPolitica',)
+	search_fields=('NombreCompleto', 'DescripcionPolitica')
+
+class PEPSEXTAdmin(admin.ModelAdmin):
+	list_display=('id','NombreCompleto', 'Descripcion',)
+	search_fields=('NombreCompleto', 'Descripcion')	
 		
 #class ResultadosScoreAdmin(admin.ModelAdmin):
 	#filter_horizontal = ('TiposdeServicio', 'CanalesdeDistribucion',)
 		
 				
 
-admin.site.register(PEPSNAC)
-admin.site.register(PEPSEXT)
+admin.site.register(PEPSNAC, PEPSNACAdmin)
+admin.site.register(PEPSEXT, PEPSEXTAdmin)
 admin.site.register(Nacionalidades)
 admin.site.register(UIFRequerimientos, UIFRequerimientosAdmin)
 admin.site.register(PorcentajeRiesgos)

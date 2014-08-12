@@ -6,20 +6,20 @@ from datetime import datetime
 
 class PEPSNAC(models.Model):
 	"""docstring for pepsnac"""
-	PEPSNAC_ID = models.CharField(max_length=20, help_text='Numero de Identidad', primary_key=True, verbose_name=u'Identidad')
-	NombreCompleto = models.TextField(help_text='Nombre completo', verbose_name=u'Nombre')
+	NumIdentidad = models.CharField(max_length=20, help_text='Numero de Identidad', verbose_name=u'Identidad')
+	NombreCompleto = models.CharField(max_length=100, help_text='Nombre completo', verbose_name=u'Nombre')
 	DescripcionPolitica = models.TextField(help_text='Descripcion Politica', verbose_name=u'Descripcion')
 
 	def __unicode__(self):
-		return self.nombrecompleto
+		return self.NombreCompleto
 
 class PEPSEXT(models.Model):
 	"""docstring for pepsext"""
-	PEPSEXT_ID = models.CharField(max_length=20, primary_key=True, help_text='Numero de Identidad')
-	NombreCompleto = models.TextField(help_text='Nombre completo', verbose_name=u'Nombre')
+	NombreCompleto = models.CharField(max_length=50, help_text='Nombre completo', verbose_name=u'Nombre')
+	Descripcion = models.CharField(max_length=200, help_text='Descripcion Politica', verbose_name=u'Descripcion')
 
 	def __unicode__(self):
-		return self.nombrecompleto
+		return self.NombreCompleto
 
 class Nacionalidades(models.Model):
 	"""docstring for Nacionalidades"""
@@ -117,7 +117,7 @@ class Censo(models.Model):
 		return self.CensoNumIdentidad + ' ' + self.CensoPrimerNombre + ' ' + self.CensoPrimerApellido
 
 class ListaCautela(models.Model):
-	NumIdentidad = models.CharField(max_length=20, help_text='Numero de Identidad', verbose_name=u'Identidad', primary_key=True)
+	NumIdentidad = models.CharField(max_length=20, help_text='Numero de Identidad', verbose_name=u'Identidad')
 	NombreCompleto = models.CharField(max_length=150, help_text='Nombre Completo', verbose_name=u'Nombre', null=True)
 	FechaIngreso = models.DateField(help_text='Fecha de Ingreso', verbose_name=u'Fecha', null=True)
 	Motivo = models.TextField(help_text='Descripcion del motivo', verbose_name=u'Motivos', null=True)

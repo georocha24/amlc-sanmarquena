@@ -23,6 +23,13 @@ def inicio(request):
 		diccionario['validador'] = True
 	return render_to_response('inicio.html', diccionario, context_instance=RequestContext(request))
 
+def formcenso(request):
+	diccionario={}
+	if not request.user.is_anonymous():
+		diccionario['usuario'] = request.user
+		diccionario['validador'] = True
+	return render_to_response('formcenso.html', diccionario, context_instance=RequestContext(request))
+
 @login_required(login_url='/ingresar/')
 def Afiliados(request):
 	diccionario={}
@@ -104,20 +111,58 @@ def busquedacenso(request):
 		diccionario['validador'] = True
 	return render_to_response('busquedacenso.html',diccionario, context_instance=RequestContext(request))
 
+#Vista que devuelve los valores de cada comparacion
 def resultados_score(request, NumIdentidad):
 	diccionario={}
-	Identidad = request.GET.get('NumIdentidad')
-	diccionario['afiliado'] = Afiliado.objects.all()
+	cooperativista = get_object_or_404(Afiliado, pk=NumIdentidad)
+	
+	#Comparaciones de paises de riesgo
+	if RiesgosPaises.objects.filter(RiesgoPais__icontains=cooperativista.Nacionalidad).exists():
+		poractividad = RiesgosPaises.objects.get(RiesgoPais__icontains=cooperativista.Nacionalidad).RiesgosIdPorc.Porcentajes
+	else:
+		poractividad = 0
 
-	#afiliados = get_object_or_404(Afiliado, pk=Identidad)
-	#paises = RiesgosPaises.objects.filter(RiesgoPais__icontains=" "+Nacionalidad.Afiliado+" ")
+	#Comparaciones de actividades economicas
+	if ActividadEconomica.objects.filter(ActividadEcon__icontains=cooperativista.ActividadEconomica).exists():
+		poractividadecon = ActividadEconomica.objects.get(ActividadEcon__icontains=cooperativista.ActividadEconomica).RiesgosIdPorc.Porcentajes
+	else:
+		poractividadecon = 0
 
-	#if paises == afiliado:
-#		dato = 10
+	#Comparaciones del listado UIF
+	uif = UIFRequerimientos.objects.filter(UIF_PrimerNombre = cooperativista.PrimerNombre + cooperativista.SegundoNombre +" "+ cooperativista.PrimerApellido +" "+ cooperativista.SegundoApellido).count()
+	if uif > 0:
+		datouif = 10
+	else:
+		datouif = 0
 
+	#Comparaciones del listado de cautela
+	cautela = ListaCautela.objects.filter(NombreCompleto = cooperativista.PrimerNombre + cooperativista.SegundoNombre +" "+ cooperativista.PrimerApellido +" "+ cooperativista.SegundoApellido).count()
+	if cautela > 0:
+		datocautela = 10
+	else:
+		datocautela = 0
 
-			
+	#Comparaciones del Listado PEPSNAC
+	pepnac = PEPSNAC.objects.filter(NombreCompleto = cooperativista.PrimerNombre + cooperativista.SegundoNombre +" "+ cooperativista.PrimerApellido +" "+ cooperativista.SegundoApellido).count()
+	if pepnac > 0:
+		datopepsnac = 10
+	else:
+		datopepsnac = 0
 
+	#Comparaciones del Listado PEPSEXT
+	pepext = PEPSEXT.objects.filter(NombreCompleto=cooperativista.PrimerNombre + cooperativista.SegundoNombre +" "+ cooperativista.PrimerApellido +" "+ cooperativista.SegundoApellido).count()
+	if pepext > 0:
+		datopepsext = 10
+	else:
+		datopepsext = 0
+
+	diccionario['PorcNacion']= poractividad 
+	diccionario['PorcActividad'] = poractividadecon 
+	diccionario['uif'] = datouif
+	diccionario['cautela'] = datocautela
+	diccionario['pepnac'] = datopepsnac
+	diccionario['pepext'] = datopepsext
+	
 	if not request.user.is_anonymous():
 		diccionario['usuario'] = request.user
 		diccionario['validador'] = True
