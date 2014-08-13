@@ -13,8 +13,15 @@ class UIFRequerimientosAdmin(admin.ModelAdmin):
 	actions = [export_as_csv]
 
 class AfiliadosAdmin(admin.ModelAdmin):
-	list_display = ('NumIdentidad','PrimerNombre','PrimerApellido','Nacionalidad','FechaNac',)
-	search_fields = ('NumIdentidad', 'PrimerNombre',)
+	list_display = ('NumIdentidad','NombreCompleto','LugarResidencia','Nacionalidad','ActividadEconomica',)
+	search_fields = ('NumIdentidad', 'NombreCompleto',)
+	list_filter = ('LugarResidencia', 'Nacionalidad',)
+	fieldsets = (
+		(('Datos Personales'), {'fields': ('NumIdentidad', 'NombreCompleto', 'LugarResidencia', 'Nacionalidad', 'ActividadEconomica', 'BeneficiarioFinal')}),
+		(('Filiales'), {'fields': ('OF', 'FLG', 'FLK', 'FLC', 'FLD', 'FLDL')}),
+		(('Tipos de Servicios'), {'fields': ('TipoServAhorro', 'TipoServPrestamo', 'TipoServUnired', 'TipoServAutoServ', 'TipoServRemesas')}),
+		(('Autorizaciones'), {'fields': ('Revisado',)}),
+	)
 
 class RiesgosZonasGeoAdmin(admin.ModelAdmin):
 	list_display = ('RiesgoZonaGeo','RiesgosIdPorc',)
@@ -36,7 +43,11 @@ class PEPSNACAdmin(admin.ModelAdmin):
 
 class PEPSEXTAdmin(admin.ModelAdmin):
 	list_display=('id','NombreCompleto', 'Descripcion',)
-	search_fields=('NombreCompleto', 'Descripcion')	
+	search_fields=('NombreCompleto', 'Descripcion')
+
+class CanalesDistribucionAdmin(admin.ModelAdmin):
+	list_display=('NombreOficina', 'RiesgosIdPorc',)
+				
 		
 #class ResultadosScoreAdmin(admin.ModelAdmin):
 	#filter_horizontal = ('TiposdeServicio', 'CanalesdeDistribucion',)
@@ -52,7 +63,7 @@ admin.site.register(RiesgosZonasGeo, RiesgosZonasGeoAdmin)
 admin.site.register(RiesgosPaises)
 admin.site.register(TipoServicio)
 admin.site.register(UbicacionesFiliales)
-admin.site.register(CanalesDistribucion)
+admin.site.register(CanalesDistribucion, CanalesDistribucionAdmin)
 admin.site.register(ActividadEconomica)
 admin.site.register(Afiliado, AfiliadosAdmin)
 admin.site.register(Censo, CensosAdmin)

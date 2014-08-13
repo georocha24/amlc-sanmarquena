@@ -86,13 +86,27 @@ class CanalesDistribucion(models.Model):
 		
 class Afiliado(models.Model):
 	NumIdentidad = models.CharField(primary_key=True, max_length=20, help_text='Numero de Identidad', verbose_name=u'Identidad')
-	PrimerNombre = models.CharField(max_length=50, help_text='Primer Nombre', verbose_name=u'PrimerNombre')
-	SegundoNombre = models.CharField(max_length=50, help_text='Segundo Nombre', verbose_name=u'SegundoNombre')
-	PrimerApellido = models.CharField(max_length=50, help_text='Primer Apellido', verbose_name=u'PrimerApellido')
-	SegundoApellido = models.CharField(max_length=50, help_text='Segundo Apellido', verbose_name=u'SegundoApellido')
+	NombreCompleto = models.CharField(max_length=200, help_text='Nombre Completo', verbose_name=u'NombreCompleto')
+	#SegundoNombre = models.CharField(max_length=50, help_text='Segundo Nombre', verbose_name=u'SegundoNombre')
+	#PrimerApellido = models.CharField(max_length=50, help_text='Primer Apellido', verbose_name=u'PrimerApellido')
+	#SegundoApellido = models.CharField(max_length=50, help_text='Segundo Apellido', verbose_name=u'SegundoApellido')
+	LugarResidencia=models.CharField(max_length=50, help_text='Ciudad Residencia', verbose_name=u'CiudadResidencia')
+	OF = models.BooleanField(help_text='Oficina Principal', verbose_name=u'OficinaPrincipal')
+	FLG = models.BooleanField(help_text='Filial Granjas', verbose_name=u'FilialGranjas')
+	FLK = models.BooleanField(help_text='Filial Kennedy', verbose_name=u'FilialKennedy')
+	FLD = models.BooleanField(help_text='Filial Duyure', verbose_name=u'FilialDuyure')
+	FLC = models.BooleanField(help_text='Filial Choluteca', verbose_name=u'FilialCholuteca')
+	FLDL = models.BooleanField(help_text='Filial Danli', verbose_name=u'FilialDanli')
+	TipoServAhorro = models.BooleanField(help_text='Tipo de servicio aplicado a los ahorros', verbose_name=u'Ahorros')
+	TipoServPrestamo = models.BooleanField(help_text='Tipo de servicio aplicado a los prestamos', verbose_name=u'Prestamos')
+	TipoServUnired = models.BooleanField(help_text='Tipo de servicio aplicado a transacciones UNIRED', verbose_name=u'UNIRED')
+	TipoServRemesas = models.BooleanField(help_text='Tipo de servicio aplicado a Remesas', verbose_name=u'Remesas')
+	TipoServAutoServ = models.BooleanField(help_text='Tipo de servicio aplicado a transacciones en autoservicio', verbose_name=u'AutoServicio')
+	BeneficiarioFinal = models.BooleanField(help_text='Si es benefiario final de la cuenta', verbose_name=u'BeneficiarioFinal')
 	Nacionalidad = models.CharField(max_length=50, help_text='Nacionalidad', verbose_name=u'Nacionalidad')
-	FechaNac = models.DateField(help_text='Fecha de nacimiento', verbose_name=u'FechaNacimiento')
+	#FechaNac = models.DateField(help_text='Fecha de nacimiento', verbose_name=u'FechaNacimiento')
 	ActividadEconomica = models.CharField(max_length=50, help_text='Actividad Economica', verbose_name=u'ActividadEconomica')
+	Revisado = models.BooleanField(help_text='Seguimiento de afiliados en las listas de riesgos', verbose_name=u'Revisado')
 
 	def __unicode__(self):
 		return self.NumIdentidad

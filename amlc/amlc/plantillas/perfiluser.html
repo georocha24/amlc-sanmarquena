@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+	<script>
+		//script que me devuelve la informacion del usuario
+		$.ajax({
+			type:  'GET',
+			url:   '/obtener-info-user/',
+			data:  {},
+			success: function(data){
+				$('.info-user .panel').html
+					(data);
+			},
+			datatype:  'html' 
+		});
+	</script>
+{% endblock javascript %}
+
+{% block contenido %}
+	<div class="row">
+		<article id="caja-contenido" class="col-xs-12 col-sm-8 col-md-9">
+			<div class="contenido-titulo row">
+				<h2 class="titulo">Mi cuenta de usuario</h2>
+			</div>
+			<div class="row">
+				<article class="cuerpo-contenido row">
+					<div class="panel panel-default">
+						 <div class="panel-heading">Información del Usuario</div>
+						 <div class="panel-body">
+						    <div class="row info-perfil">
+						    	<div><p>Nombre completo: </p><h4>{{Perfil.first_name}} {{Perfil.last_name}}</h4></div>
+								<div class="espacio"></div>
+						    	<div><p>Dirección de correo: </p><h4>{{Perfil.email}}</h4></div>
+						    	<div class="espacio"></div>
+						    	<div><p>Nombre de usuario: </p><h4>{{Perfil.username}}</h4></div>
+						    	<div class="espacio"></div>
+						    </div>
+						    <div class="row">
+						    	 <div class="espacio"></div>
+						    	<a href="/editar-user/" class="btn btn-default">Editar información</a>
+						    </div>
+						 </div>
+					</div>
+				</article>
+			</div>
+		</article>
+	</div>
+	
+{% endblock contenido %}

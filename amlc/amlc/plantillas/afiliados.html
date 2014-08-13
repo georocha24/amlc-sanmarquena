@@ -3,13 +3,13 @@
 	<h1>Afiliados actualmente en el sistema</h1>
 		<table class="table table-hover">
 			<tr>
-				<td><h4> Identidad </h4></td><td><h4> Primer Nombre </h4></td><td><h4> Segundo Nombre </h4></td><td><h4> Primer Apellido </h4></td><td><h4> Segundo Apellido </h4></td><td><h4> Nacionalidad </h4></td><td><h4>Acciones</h4></td>
+				<td><h4> Identidad </h4></td><td><h4> Nombre Completo del Afiliado </h4></td><td><h4> Lugar de Residencia </h4></td><td><h4> Nacionalidad </h4></td><td><h4> Actividad Economica </h4></td><td><h4>Acciones</h4></td>
 			</tr>
 			{% for dato in afiliado %}
 			<tr>
-				<td>{{ dato.NumIdentidad }}</td><td>{{ dato.PrimerNombre }}</td><td>{{ dato.SegundoNombre }}</td><td>{{ dato.PrimerApellido }}</td><td>{{ dato.SegundoApellido }}</td><td>{{ dato.Nacionalidad }}</td><td><a href="/resultados-score/{{dato.NumIdentidad}}/"><button class="btn btn-primary">Examinar</button></a></td>
+				<td>{{ dato.NumIdentidad }}</td><td>{{ dato.NombreCompleto }}</td><td>{{ dato.LugarResidencia }}</td><td>{{ dato.Nacionalidad }}</td><td>{{ dato.ActividadEconomica }}</td><td><a href="/resultados-score/{{dato.NumIdentidad}}/"><button class="btn btn-primary">Examinar</button></a></td>
 			</tr>
 			{% endfor %}
 		</table>
-	
+		
 {% endblock %}

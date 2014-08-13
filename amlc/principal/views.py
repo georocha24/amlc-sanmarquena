@@ -10,16 +10,16 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
+from principal.forms import *
 
 validador = False
 # Create your views here.
-
 
 #Vistas Individuales extrayendo todos los objetos
 def inicio(request):
 	diccionario={}
 	if not request.user.is_anonymous():
-		diccionario['usuario'] = request.user
+		diccionario['usuario'] = request.user 
 		diccionario['validador'] = True
 	return render_to_response('inicio.html', diccionario, context_instance=RequestContext(request))
 
@@ -61,7 +61,7 @@ def ingresar(request):
 		formulario = AuthenticationForm()
 	return render_to_response('ingresar.html', context_instance=RequestContext(request))
 
-
+@login_required(login_url='/ingresar/')
 def busquedacenso(request):
 	buscar = request.GET.get("buscaditas")
 	buscar2 = request.GET.get("buscaditas1")
@@ -128,33 +128,99 @@ def resultados_score(request, NumIdentidad):
 	else:
 		poractividadecon = 0
 
+	#Comparaciones de lugar de residencia del afiliado
+	if RiesgosZonasGeo.objects.filter(RiesgoZonaGeo__icontains=cooperativista.LugarResidencia).exists():
+		porzonageo = RiesgosZonasGeo.objects.get(RiesgoZonaGeo__icontains=cooperativista.LugarResidencia).RiesgosIdPorc.Porcentajes
+	else:
+		porzonageo = 0
+
 	#Comparaciones del listado UIF
-	uif = UIFRequerimientos.objects.filter(UIF_PrimerNombre = cooperativista.PrimerNombre + cooperativista.SegundoNombre +" "+ cooperativista.PrimerApellido +" "+ cooperativista.SegundoApellido).count()
+	uif = UIFRequerimientos.objects.filter(UIF_PrimerNombre = cooperativista.NombreCompleto).count()
 	if uif > 0:
 		datouif = 10
 	else:
 		datouif = 0
 
 	#Comparaciones del listado de cautela
-	cautela = ListaCautela.objects.filter(NombreCompleto = cooperativista.PrimerNombre + cooperativista.SegundoNombre +" "+ cooperativista.PrimerApellido +" "+ cooperativista.SegundoApellido).count()
+	cautela = ListaCautela.objects.filter(NombreCompleto = cooperativista.NombreCompleto).count()
 	if cautela > 0:
 		datocautela = 10
 	else:
 		datocautela = 0
 
 	#Comparaciones del Listado PEPSNAC
-	pepnac = PEPSNAC.objects.filter(NombreCompleto = cooperativista.PrimerNombre + cooperativista.SegundoNombre +" "+ cooperativista.PrimerApellido +" "+ cooperativista.SegundoApellido).count()
+	pepnac = PEPSNAC.objects.filter(NombreCompleto = cooperativista.NombreCompleto).count()
 	if pepnac > 0:
 		datopepsnac = 10
 	else:
 		datopepsnac = 0
 
 	#Comparaciones del Listado PEPSEXT
-	pepext = PEPSEXT.objects.filter(NombreCompleto=cooperativista.PrimerNombre + cooperativista.SegundoNombre +" "+ cooperativista.PrimerApellido +" "+ cooperativista.SegundoApellido).count()
+	pepext = PEPSEXT.objects.filter(NombreCompleto=cooperativista.NombreCompleto).count()
 	if pepext > 0:
 		datopepsext = 10
 	else:
 		datopepsext = 0
+
+	#Comparaciones si es beneficiario final de la cuenta
+	bene = cooperativista.BeneficiarioFinal
+	if bene == True:
+		bene1 = 10
+	else:
+		bene1 = 0
+
+	#Resultados del muestreo de las filiales a la que el cooperativista asiste
+	#--> filial Oficina Principal
+	op = cooperativista.OF
+	if op == True:
+		porfilial1 = CanalesDistribucion.objects.get(NombreOficina__icontains='Oficina Principal').RiesgosIdPorc.Porcentajes
+	else:
+		porfilial1 = 0
+
+	#--> Filial Choluteca
+	fc = cooperativista.FLC 
+	if fc == True:
+		porfilial2 = CanalesDistribucion.objects.get(NombreOficina__icontains='Filial Choluteca').RiesgosIdPorc.Porcentajes
+	else:
+		porfilial2 = 0
+
+	#--> Filial Danli
+	fdl = cooperativista.FLDL
+	if fc == True:
+		porfilial3 = CanalesDistribucion.objects.get(NombreOficina__icontains='Filial Danli').RiesgosIdPorc.Porcentajes
+	else:
+		porfilial3 = 0
+
+	#--> Filial Duyure
+	fd = cooperativista.FLD
+	if fd == True:
+		porfilial4 = CanalesDistribucion.objects.get(NombreOficina__icontains='Filial Duyure').RiesgosIdPorc.Porcentajes
+	else:
+		porfilial4 = 0
+
+	#--> Filial Duyure
+	fd = cooperativista.FLD
+	if fd == True:
+		porfilial4 = CanalesDistribucion.objects.get(NombreOficina__icontains='Filial Duyure').RiesgosIdPorc.Porcentajes
+	else:
+		porfilial4 = 0
+
+	#--> Filial Granjas
+	fg = cooperativista.FLG
+	if fg == True:
+		porfilial5 = CanalesDistribucion.objects.get(NombreOficina__icontains='Filial Granjas').RiesgosIdPorc.Porcentajes
+	else:
+		porfilial5 = 0
+
+	#--> Filial Kennedy
+	fkn = cooperativista.FLK
+	if fkn == True:
+		porfilial6 = CanalesDistribucion.objects.get(NombreOficina__icontains='Filial Kennedy').RiesgosIdPorc.Porcentajes
+	else:
+		porfilial6 = 0
+
+	#diccionario que me devuelve la suma y promedio de los puntajes de las filiales
+	promediofiliales = (porfilial1 + porfilial2 + porfilial3 + porfilial4 + porfilial5 + porfilial6) / 6
 
 	diccionario['PorcNacion']= poractividad 
 	diccionario['PorcActividad'] = poractividadecon 
@@ -162,8 +228,75 @@ def resultados_score(request, NumIdentidad):
 	diccionario['cautela'] = datocautela
 	diccionario['pepnac'] = datopepsnac
 	diccionario['pepext'] = datopepsext
+	diccionario['zonageo'] = porzonageo
+	diccionario['beneficiario'] = bene1
+	diccionario['filiales'] = promediofiliales 
+	diccionario['total'] = poractividad + poractividadecon + datouif + datocautela + datopepsnac + datopepsext + porzonageo + promediofiliales
 	
 	if not request.user.is_anonymous():
 		diccionario['usuario'] = request.user
 		diccionario['validador'] = True
 	return render_to_response('resultadosscore.html',diccionario, context_instance=RequestContext(request))
+
+@login_required(login_url="/ingresar/")
+def perfilusuario(request):
+	diccionario={}
+	if not request.user.is_anonymous():
+		diccionario['usuario'] = request.user 
+		diccionario['validador'] = True 
+		diccionario['Perfil'] = User.objects.get(id=request.user.id)
+	return render_to_response('perfiluser.html', diccionario, context_instance=RequestContext(request))
+
+@login_required(login_url='/ingresar/')
+def editarusuario(request):
+	diccionario={}
+	if not request.user.is_anonymous():
+		diccionario['usuario']=request.user 
+		diccionario['validador'] = True 
+		diccionario['Perfil'] = User.objects.get(id=request.user.id)
+	return render_to_response('editaruser.html', diccionario, context_instance=RequestContext(request))
+
+@login_required(login_url='/ingresar/')
+def actualizarusuario(request):
+	if not request.user.is_anonymous():
+		if request.method=='POST':
+			nombre = request.POST['Nombre']
+			apellido = request.POST['Apellido']
+			email = request.POST['Correo']
+			usuario = request.POST['Usuario']
+
+			u=User.objects.get(pk=request.user.id)
+
+			u.first_name = nombre
+			u.last_name = apellido
+			u.email = email 
+			u.username = usuario
+			u.save()
+			return HttpResponseRedirect('/perfil-user/')
+		else:
+			raise Http404
+	else:
+		return HttpResponseRedirect('/ingresar/')
+
+def registrar(request):
+	if request.method=='POST':
+		usuario = NuevoUserForm(request.POST)
+		if usuario.is_valid():
+			usuarios = usuario.cleaned_data["username"]
+			contrasena = usuario.cleaned_data["password"]
+			email = usuario.cleaned_data["email"]
+			nombres = usuario.cleaned_data["first_name"]
+			apellidos = usuario.cleaned_data["last_name"]
+
+			user = User.objects.create_user(usuarios, email, contrasena)
+			user.first_name = nombres
+			user.last_name = apellidos
+
+			user.save()
+
+			acceso = authenticate(username=usuarios, password=contrasena)
+			login(request, acceso)
+			return HttpResponseRedirect('/')
+	else:
+		usuario = NuevoUserForm()
+		return render_to_response('registrar.html', context_instance=RequestContext(request))

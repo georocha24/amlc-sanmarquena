@@ -19,6 +19,10 @@ urlpatterns = patterns('',
     url(r'^resultados-score/(?P<NumIdentidad>\w+)/$', 'principal.views.resultados_score', name='resultados_score'),
     url(r'^ingresar/$', login, {'template_name': 'ingresar.html',}, name='login'),
     url(r'^salir/$', logout, {'template_name': 'cerrarsesion.html',}, name='logout'),
+    url(r'^perfil-user/$', 'principal.views.perfilusuario', name='perfilusuario'),
+    url(r'^editar-user/$', 'principal.views.editarusuario', name='editarusuario'),
+    url(r'^actualizar-user/$', 'principal.views.actualizarusuario', name='actualizarusuario'),
+    url(r'^registro/$', 'principal.views.registrar', name='registrar'),
     #url(r'^Buscar/$', 'principal.views.BuscarPersonas', name='BuscarPersonas')
 )
 #url(r'^receta/(?P<id_receta>\d+)$','principal.views.detalle_receta'),

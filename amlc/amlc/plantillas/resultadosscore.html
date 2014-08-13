@@ -4,7 +4,7 @@
 {% endblock  %}
 
 {% block contenido %}
-  <table class="table table-hover">
+  <table class="table table-bordered table-hover">
     <tr>
       <td><h3>Factor de Riesgo Considerado</h3></td><td><h3>Porcentaje de Riesgo</h3></td>
     </tr>
@@ -21,16 +21,16 @@
       <td><p>Aparece en la lista de cautela interna</p></td><td><p>{{ cautela }}</p></td>
     </tr>
     <tr>
-      <td><p>Canales de Distribucion</p></td><td><p></p></td>
+      <td><p>Canales de Distribucion</p></td><td><p>{{ filiales|floatformat:'2' }}</p></td>
     </tr>
     <tr>
-      <td><p>Zona geografica donde reside</p></td><td><p></p></td>
+      <td><p>Zona geografica donde reside</p></td><td><p>{{ zonageo }}</p></td>
     </tr>
     <tr>
       <td><p>Tipo de servicio a utilizar</p></td><td><p></p></td>
     </tr>
     <tr>
-      <td><p>Es beneficiario final de la cuenta</p></td><td><p></p></td>
+      <td><p>Es beneficiario final de la cuenta</p></td><td><p>{{ beneficiario }}</p></td>
     </tr>
     <tr>
       <td><p>Aparece en la base de requerimientos UIF</p></td><td><p>{{ uif }}</p></td>
@@ -38,5 +38,28 @@
     <tr>
       <td><p>Actividad economica del cooperativista</p></td><td><p>{{ PorcActividad }}</p></td>
     </tr>
+    <tr id="filatotal">
+      <td><p><h3>Totales</h3></p></td><td><p><h4>{{ total|floatformat:'2' }}</h4></p></td>
+    </tr>
   </table>
+  <div class="col col-xs-6 col-sm-3 col-md-3">
+    <div class="form-group">
+      <button type="submit" class="btn btn-block btn-success">Generar Reporte</button>    
+    </div>
+  </div>
+  
+{% block javascript %}
+  <script type="text/javascript">
+    {% if total <= 33 %}
+      $('#filatotal').addClass('success')
+    {% endif %}
+    {% if total > 34 and total <= 66 %}
+      $('#filatotal').addClass('warning')
+    {% endif %}
+    {% if total > 67 and total < 100 %}
+      $('#filatotal').addClass('danger')
+    {% endif %}
+  </script> 
+{% endblock javascript %}
+
 {% endblock %}
